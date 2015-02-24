@@ -5,8 +5,7 @@
   for Ubuntu and you are really set in your ways....
 
   Yes there is no Ubuntu package , so I am slowly working on building a package repository.
-
-  First , lets move it out of svn and host it on gitub.
+  First thing I did was move it out of svn and host it on gitub.
 
  
 ### Server Build
