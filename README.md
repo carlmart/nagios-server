@@ -87,7 +87,7 @@ sudo vi /usr/local/nagios/etc/printers/hplaserjet.cfg
 
 ```
 define host{
-use                             generic-host
+use                             generic-printer
 host_name                       hplaserjet
 alias                           HP Laserjet
 address                         192.168.1.200
@@ -99,4 +99,17 @@ notification_period             24x7
 ```
 
 
+#### Work loop
 
+check the config file
+```
+# add a new host
+sudo vi /usr/local/nagios/etc/  (objectt,printers,routers or servers) /myhost.cfg
+# check config file
+sudo /usr/local/nagios/bin/nagios -v /usr/local/nagios/etc/nagios.cfg 
+# restart nagios
+sudo service nagios restart
+
+```
+
+check 
