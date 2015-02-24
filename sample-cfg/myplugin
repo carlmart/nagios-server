@@ -1,0 +1,62 @@
+#!/bin/bash
+# Script to get a process uptime, alerts if process time is under CRIT value
+# can be used to monitor if any process has been restarted, output graphic of uptime in minutes
+ 
+# by Felipe Ferreira http://felipeferreira.net
+# Dez. 2014
+ 
+if [ "$2" == "" ]
+then
+  echo -e "\n Syntax: $0 processos Critical \nex.: $0  tomcat.classificados 90 \n Check process uptime and alerts if was restared\n"
+  exit 3
+fi
+ 
+PROC=$1
+CRIT=$2
+ 
+#GET PID
+CMD="ps -ef |grep $PROC |grep -v grep |awk '{ print \$2 }' |head -n1"
+P=`eval $CMD`
+ 
+#GET UPTIME
+TIME=`ps -p $P -o etime=`
+ 
+if [ -z $TIME ];then
+    echo "UNKOWN - $PROC PID $P uptime $TIME not found"
+    exit 3
+fi
+ 
+# FORMAT 28-03:27:2
+# GET MINUTES
+M=`echo $TIME|awk -F":" '{ print $2 }'`
+ 
+# GET DAYS (ONLY IF THERE)
+if [[ $TIME == *"-"* ]]
+then
+    D=`echo $TIME|awk -F"-" '{ print $1 }'`
+    H=`echo $TIME|awk -F":" '{ print $1 }'|awk -F"-" '{ print $NF }'`
+    # CONVERT DAYS TO MIN
+    D=`expr $D \* 1440`
+else
+    H=`echo $TIME|awk -F":" '{ print $1 }'`
+fi
+ 
+# CONVERT HOURS TO MIN
+H=`expr $H \* 60`
+#echo "D: $D H: $H M: $M"
+CTIME=`expr $M + $H`
+ 
+if [ ! -z "$D" ]; then
+    CTIME=`expr $CTIME + $D`
+fi
+# CLEANUP
+TIME=`echo ${TIME} | sed -e 's/^[ \t]*//'`
+ 
+MSG="Process $P $PROC uptime is $TIME (dias-hrs) $CTIME min|uptime=$CTIME"
+if [ "$CTIME" -lt "$CRIT" ];then
+  echo "CRITICAL - $MSG"
+  exit 2
+else
+   echo "OK - $MSG"
+ exit 0
+fi
