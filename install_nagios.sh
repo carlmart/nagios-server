@@ -66,8 +66,8 @@ echo "Nagios sample configuration files are located under /usr/local/nagios/etc 
 echo 
 echo "Edit your local file contacts.cfg by adding your contact info"
 echo "and sudo copy to /usr/local/nagios/etc/" 
-echo
 
+echo "sudo vi /usr/local/nagios/etc/objects/contacts.cfg"
 
 echo "Edit your local file nagios.conf "
 echo "and sudo copy to /etc/apache2/sites-enabled/"
