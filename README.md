@@ -105,11 +105,15 @@ check the config file
 ```
 # add a new host
 sudo vi /usr/local/nagios/etc/  (objectt,printers,routers or servers) /myhost.cfg
+
+# check for a service ex. generic-service or add it if it doesn't exist
+grep generic-service  /usr/local/nagios/etc/objects/templates.cfg   # if true its OK !
+
 # check config file
 sudo /usr/local/nagios/bin/nagios -v /usr/local/nagios/etc/nagios.cfg 
+
 # restart nagios
 sudo service nagios restart
 
 ```
 
-check 
